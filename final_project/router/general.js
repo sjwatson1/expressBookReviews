@@ -21,22 +21,28 @@ public_users.post("/register", (req,res) => {
 });
 
 // Bleow we have function to get all books
-public_users.get('/',function (req, res) {
-    res.send(JSON.stringify(books,null,4));
-});
+public_users.get('/books',function (req, res) {
+    const get_books = new Promise((resolve, reject) => {
+        resolve(res.send(JSON.stringify({books}, null, 4)));
+      });
+      get_books.then(() => console.log("Promise for Task 10 resolved"));
+  });
 
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
     const isbn = req.params.isbn;
+    const get_isbn = new Promise((resolve, reject) => {
     res.send(books[isbn])
-  
+    });
+    get_isbn.then(() => console.log("Promise for Task 11 resolved"));
  });
 
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-        let booksbyauthor = [];
+    const get_author = new Promise((resolve, reject) => {
+    let booksbyauthor = [];
         let isbns = Object.keys(books);
       isbns.forEach((isbn) => {
         if(books[isbn]["author"] === req.params.author) {
@@ -45,8 +51,10 @@ public_users.get('/author/:author',function (req, res) {
          "reviews":books[isbn]["reviews"]});
           }
         });
-        res.send(JSON.stringify({booksbyauthor}, null, 4));
-      });
+         res.send(JSON.stringify({booksbyauthor}, null, 4));
+               });
+               resolve("promise 12 resolved")   
+            });  
     
 
 // Get all books based on title
